@@ -1,0 +1,31 @@
+                ---=== OSLANG ===---
+        OSLANG is a programming language designed for the implementation of my own 32 bit operating system.
+        An OSLANG program consists of a series of blocks and link definitions. A block is simply a named set of segments, which hold code. 
+        A link definition may tell the compiler what the sizes of various segments are, and how they should be suffixed/prefixed. If no segments
+        are specified, the `$` segment is active.
+
+        The following instructions are defined:
+
+                `CODE:` :: change to CODE mode.
+                `LINK:` :: change to LINK mode.
+                `SEGMENT <X>` :: change the current segment to that named X.
+                `HEX <X> <Y> <etc>;` :: (only CODE mode) put X, Y, etc. directly into the buffer as bytes, strings are to be read as ASCII strings.
+                `.SIZEOF <X>` :: (only LINK mode) Set the size of the current segment (-1 == unbounded)
+                `.PREFIX <X> <Y> <etc>;` :: prefix this segment with X, Y, etc. as bytes.
+                `.SUFFIX <X> <Y> <etc>;` :: suffix this segment with X, Y, etc. as bytes.
+
+        Thusly to print `HI` to a legacy BIOS real mode terminal we use the following program:
+
+                CODE:
+                SEGMENT HEADER
+                        HEX B4 0E;
+                        HEX B0 48;
+                        HEX CD 10;
+                        HEX B0 49;
+                        HEX CD 10;
+                        HEX EB FE;
+                LINK:
+                SEGMENT HEADER
+                        .SIZEOF 1FE
+                        .SUFFIX 55 AA
+                             

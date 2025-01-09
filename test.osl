@@ -1,0 +1,9 @@
+CODE:
+SEGMENT HEADER;
+        HEX B4 0E;
+        HEX B0 48;
+        HEX CD 10;
+LINK:
+SEGMENT HEADER
+        .SIZEOF 1FE
+        .SUFFIX 55 AA;
